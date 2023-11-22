@@ -56,15 +56,55 @@ void exibirTabuleiro(char tabuleiro[linhas][colunas]) {
     }
 }
 
+void vezPreto(char tabuleiro[linhas][colunas]) {
+    int linha, coluna, linha_antiga, coluna_antiga;
+    char c;{
+   	
+    printf("Digite qual linha e coluna que quer mover: ");
+    scanf(" %c %d", &c, &coluna);
+    linha = c - 'A';
+    coluna--;
+    linha_antiga = linha;
+    coluna_antiga = coluna;
+
+    if (tabuleiro[linha][coluna] == 'C') {
+        printf("Você quer mover o Cavalo para que posição? ");
+        scanf(" %c %d", &c, &coluna);
+        linha = c - 'A';
+        coluna--;
+        if ((linha == linha_antiga + 2 && coluna == coluna_antiga + 1) || (linha == linha_antiga + 1 && coluna == coluna_antiga + 2) ||
+            (linha == linha_antiga - 1 && coluna == coluna_antiga + 2) || (linha == linha_antiga - 2 && coluna == coluna_antiga + 1) ||
+            (linha == linha_antiga - 2 && coluna == coluna_antiga - 1) || (linha == linha_antiga - 1 && coluna == coluna_antiga - 2) ||
+            (linha == linha_antiga + 1 && coluna == coluna_antiga - 2) || (linha == linha_antiga + 2 && coluna == coluna_antiga - 1)) {
+            if (tabuleiro[linha][coluna] != 'P' && tabuleiro[linha][coluna] != 'T' && tabuleiro[linha][coluna] != 'C' && tabuleiro[linha][coluna] != 'B' && tabuleiro[linha][coluna] != 'R' && tabuleiro[linha][coluna] != 'K') {
+                if (tabuleiro[linha][coluna] == '-') {
+                    printf("Peça movida com sucesso.\n");
+                    tabuleiro[linha][coluna] = 'C';
+                    tabuleiro[linha_antiga][coluna_antiga] = '-';
+                } else {
+                    printf("Posição inexistente ou ocupada.\n");
+                }
+            }
+        } else {
+            printf("Movimento inválido para o Cavalo.\n");
+        }
+    }
+}
+}
 
 
 int main(){
 	
+	setlocale(LC_ALL, "Portuguese");
+	
 	char tabuleiro[linhas][colunas];
-	int linha, coluna, i, j;
+	int linha, coluna, i, j, linha_antes, coluna_antes;
 	
 	inicializarTabuleiro(tabuleiro);
 	exibirTabuleiro(tabuleiro);
+	vezPreto(tabuleiro);
+	exibirTabuleiro(tabuleiro);
+	
 }
 
 
