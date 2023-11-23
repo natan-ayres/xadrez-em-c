@@ -17,94 +17,170 @@ void inicializarTabuleiro(char tabuleiro[linhas][colunas]) {
     tabuleiro[0][5] = 'B';
     tabuleiro[0][6] = 'C';
     tabuleiro[0][7] = 'T';
-    for(int j = 0; j < 8; ++j){
-    	tabuleiro[1][j] = 'P';
-	}
-	tabuleiro[7][0] = 't';
-	tabuleiro[7][1] = 'c';
-	tabuleiro[7][2] = 'b';
-	tabuleiro[7][3] = 'k';
-	tabuleiro[7][4] = 'r';
-	tabuleiro[7][5] = 'b';
-	tabuleiro[7][6] = 'c';
-	tabuleiro[7][7] = 't';
-	for (int j = 0; j < 8; ++j){
-    	tabuleiro[6][j] = 'p';
-	}
-	for (int i = 2; i < 6; ++i){
-		for (int j = 0; j < 8; ++j){
-			tabuleiro[i][j] = '-';
-		}
-	}
+    
+    for (int j = 0; j < 8; ++j) {
+        tabuleiro[1][j] = 'P';
+    }
+    
+    tabuleiro[7][0] = 't';
+    tabuleiro[7][1] = 'c';
+    tabuleiro[7][2] = 'b';
+    tabuleiro[7][3] = 'k';
+    tabuleiro[7][4] = 'r';
+    tabuleiro[7][5] = 'b';
+    tabuleiro[7][6] = 'c';
+    tabuleiro[7][7] = 't';
+    
+    for (int j = 0; j < 8; ++j) {
+        tabuleiro[6][j] = 'p';
+    }
+    
+    for (int i = 2; i < 6; ++i) {
+        for (int j = 0; j < 8; ++j) {
+            tabuleiro[i][j] = '-';
+        }
+    }
 }
 
 void exibirTabuleiro(char tabuleiro[linhas][colunas]) {
-	// Exibir os n�meros das colunas
+    // Exibir os números das colunas
     printf("  ");
-    for (int i = 0; i < colunas; ++i) { // Essa fun��o utiliza o I como um indice para as colunas.
-        printf("%d ", i + 1); // Se printa cada espa�o com o valor que ele tem no Vetor.
+    for (int i = 0; i < colunas; ++i) {
+        printf("%d ", i + 1);
     }
-    printf("\n"); // Quebra a linha
+    printf("\n");
     
-	// Exibir o tabuleiro do jogo
-    for (int i = 0; i < linhas; ++i) { // Essa fun��o utiliza o I como um indice para as linhas.
+    // Exibir o tabuleiro do jogo
+    for (int i = 0; i < linhas; ++i) {
         printf("%c ", 'A' + i);
-        for (int j = 0; j < colunas; ++j) { // Essa fun��o utiliza o J como um indice para as colunas.
-            printf("%c ", tabuleiro[i][j]); // Se printa cada espa�o com o valor que ele tem no Vetor.
+        for (int j = 0; j < colunas; ++j) {
+            printf("%c ", tabuleiro[i][j]);
         }
-        printf("\n"); // Quebra a linha
+        printf("\n");
     }
 }
 
 void vezPreto(char tabuleiro[linhas][colunas]) {
-    int linha, coluna, linha_antiga, coluna_antiga;
-    char c;{
-   	
-    printf("Digite qual linha e coluna que quer mover: ");
-    scanf(" %c %d", &c, &coluna);
-    linha = c - 'A';
-    coluna--;
-    linha_antiga = linha;
-    coluna_antiga = coluna;
+    int linha, coluna, linha_antiga, coluna_antiga, peca_movida, i, contador;
+    char c, continuar;
 
-    if (tabuleiro[linha][coluna] == 'C') {
-        printf("Voc� quer mover o Cavalo para que posi��o? ");
+    do {
+        printf("Digite qual linha e coluna que quer mover: ");
         scanf(" %c %d", &c, &coluna);
         linha = c - 'A';
         coluna--;
-        if ((linha == linha_antiga + 2 && coluna == coluna_antiga + 1) || (linha == linha_antiga + 1 && coluna == coluna_antiga + 2) ||
-            (linha == linha_antiga - 1 && coluna == coluna_antiga + 2) || (linha == linha_antiga - 2 && coluna == coluna_antiga + 1) ||
-            (linha == linha_antiga - 2 && coluna == coluna_antiga - 1) || (linha == linha_antiga - 1 && coluna == coluna_antiga - 2) ||
-            (linha == linha_antiga + 1 && coluna == coluna_antiga - 2) || (linha == linha_antiga + 2 && coluna == coluna_antiga - 1)) {
-            if (tabuleiro[linha][coluna] != 'P' && tabuleiro[linha][coluna] != 'T' && tabuleiro[linha][coluna] != 'C' && tabuleiro[linha][coluna] != 'B' && tabuleiro[linha][coluna] != 'R' && tabuleiro[linha][coluna] != 'K') {
-                if (tabuleiro[linha][coluna] == '-') {
-                    printf("Pe�a movida com sucesso.\n");
-                    tabuleiro[linha][coluna] = 'C';
-                    tabuleiro[linha_antiga][coluna_antiga] = '-';
+        linha_antiga = linha;
+        coluna_antiga = coluna;
+        peca_movida = 0;
+        continuar = 'N';
+
+        if (tabuleiro[linha][coluna] == 'C') {
+            do {
+                printf("Você quer mover o Cavalo para que posição? ");
+                scanf(" %c %d", &c, &coluna);
+                linha = c - 'A';
+                coluna--;
+
+                if ((linha == linha_antiga + 2 && coluna == coluna_antiga + 1) || (linha == linha_antiga + 1 && coluna == coluna_antiga + 2) ||
+                    (linha == linha_antiga - 1 && coluna == coluna_antiga + 2) || (linha == linha_antiga - 2 && coluna == coluna_antiga + 1) ||
+                    (linha == linha_antiga - 2 && coluna == coluna_antiga - 1) || (linha == linha_antiga - 1 && coluna == coluna_antiga - 2) ||
+                    (linha == linha_antiga + 1 && coluna == coluna_antiga - 2) || (linha == linha_antiga + 2 && coluna == coluna_antiga - 1)) {
+
+                    if (tabuleiro[linha][coluna] != 'P' && tabuleiro[linha][coluna] != 'T' && tabuleiro[linha][coluna] != 'C' &&
+                        tabuleiro[linha][coluna] != 'B' && tabuleiro[linha][coluna] != 'R' && tabuleiro[linha][coluna] != 'K') {
+
+                        if (tabuleiro[linha][coluna] == '-') {
+                            printf("Peça movida com sucesso.\n");
+                            tabuleiro[linha][coluna] = 'C';
+                            tabuleiro[linha_antiga][coluna_antiga] = '-';
+                            peca_movida++;
+                            break;
+                        } else {
+                            printf("Posição inexistente ou ocupada.\n");
+                            printf("Ainda quer usar o cavalo? S/N \n");
+                            scanf(" %c", &continuar);
+                        }
+                    } else {
+                        printf("Uma peça sua já está ocupando esse lugar\n");
+                        printf("Ainda quer usar o cavalo? S/N\n");
+                        scanf(" %c", &continuar);
+                    }
                 } else {
-                    printf("Posi��o inexistente ou ocupada.\n");
+                    printf("Movimento inválido para o Cavalo.\n");
+                    printf("Ainda quer usar o cavalo? S/N \n");
+                    scanf(" %c", &continuar);
                 }
-            }
-        } else {
-            printf("Movimento inv�lido para o Cavalo.\n");
+            } while (continuar == 'S');
         }
-    }
+        if (tabuleiro[linha][coluna] == 'P') {
+            do {
+                printf("Você quer mover o Peão para que posição? ");
+                scanf(" %c %d", &c, &coluna);
+                linha = c - 'A';
+                coluna--;
+                if ((linha == linha_antiga + 1 && coluna == coluna_antiga + 1) || (linha == linha_antiga + 1 && coluna == coluna_antiga -1)){
+					if ((tabuleiro[linha][coluna] == 'p') || (tabuleiro[linha][coluna] == 'b') || (tabuleiro[linha][coluna] == 'c') || (tabuleiro[linha][coluna] == 't') || (tabuleiro[linha][coluna] == 'k') || (tabuleiro[linha][coluna] == 'r')){
+						printf("Peça movida com sucesso.\n");
+                        tabuleiro[linha][coluna] = 'P';
+                        tabuleiro[linha_antiga][coluna_antiga] = '-';
+                        peca_movida++;
+                        break;
+                	}
+                	else if(tabuleiro[linha][coluna] == '-'){
+						printf("Movimento inválido para o Peão.\n");
+						printf("Ainda quer usar o Peão? S/N\n");
+						scanf(" %c", &continuar);
+					}
+                	else{
+                		printf("Posição inexistente ou ocupada por uma de suas peças.\n");
+                		printf("Ainda quer usar o Peão? S/N \n");
+                        scanf(" %c", &continuar);                		
+					}
+				}
+            	else if (linha == linha_antiga + 1 && coluna == coluna_antiga){
+            		if (tabuleiro[linha][coluna] != 'P' && tabuleiro[linha][coluna] != 'T' && tabuleiro[linha][coluna] != 'C' &&
+                        tabuleiro[linha][coluna] != 'B' && tabuleiro[linha][coluna] != 'R' && tabuleiro[linha][coluna] != 'K') {
+                        if (tabuleiro[linha][coluna] == '-') {
+                            printf("Peça movida com sucesso.\n");
+                            tabuleiro[linha][coluna] = 'P';
+                            tabuleiro[linha_antiga][coluna_antiga] = '-';
+                            peca_movida++;
+                            break;
+                        } else {
+                            printf("Posição inexistente ou ocupada.\n");
+                            printf("Ainda quer usar o Peão? S/N \n");
+                            scanf(" %c", &continuar);
+                        }
+                    }	else {
+                        	printf("Uma peça sua já está ocupando esse lugar\n");
+                        	printf("Ainda quer usar o Peão? S/N\n");
+                        	scanf(" %c", &continuar);
+                    }
+                }else {
+                    	printf("Movimento inválido para o Peão.\n");
+                    	printf("Ainda quer usar o Peão? S/N \n");
+                    	scanf(" %c", &continuar);
+                }
+            } while (continuar == 'S');
+			}
+    } while (peca_movida == 0);
 }
+
+int main() {
+    setlocale(LC_ALL, "Portuguese");
+
+    char tabuleiro[linhas][colunas];
+    
+    inicializarTabuleiro(tabuleiro);
+    exibirTabuleiro(tabuleiro);
+    vezPreto(tabuleiro);
+    exibirTabuleiro(tabuleiro);
+    vezPreto(tabuleiro);
+    exibirTabuleiro(tabuleiro);
+	
 }
 
 
-int main(){
-	
-	setlocale(LC_ALL, "Portuguese");
-	
-	char tabuleiro[linhas][colunas];
-	int linha, coluna, i, j, linha_antes, coluna_antes;
-	
-	inicializarTabuleiro(tabuleiro);
-	exibirTabuleiro(tabuleiro);
-	vezPreto(tabuleiro);
-	exibirTabuleiro(tabuleiro);
-	
-}
+
 
 
