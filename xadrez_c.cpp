@@ -110,7 +110,7 @@ void vezPreto(char tabuleiro[linhas][colunas]) {
                     printf("Ainda quer usar o cavalo? S/N \n");
                     scanf(" %c", &continuar);
                 }
-            } while (continuar == 'S');
+            }while (continuar == 'S');
         }
         if (tabuleiro[linha][coluna] == 'P') {
             do {
@@ -138,31 +138,25 @@ void vezPreto(char tabuleiro[linhas][colunas]) {
 					}
 				}
             	else if (linha == linha_antiga + 1 && coluna == coluna_antiga){
-            		if (tabuleiro[linha][coluna] != 'P' && tabuleiro[linha][coluna] != 'T' && tabuleiro[linha][coluna] != 'C' &&
-                        tabuleiro[linha][coluna] != 'B' && tabuleiro[linha][coluna] != 'R' && tabuleiro[linha][coluna] != 'K') {
-                        if (tabuleiro[linha][coluna] == '-') {
-                            printf("Peça movida com sucesso.\n");
-                            tabuleiro[linha][coluna] = 'P';
-                            tabuleiro[linha_antiga][coluna_antiga] = '-';
-                            peca_movida++;
-                            break;
-                        } else {
-                            printf("Posição inexistente ou ocupada.\n");
-                            printf("Ainda quer usar o Peão? S/N \n");
-                            scanf(" %c", &continuar);
-                        }
-                    }	else {
-                        	printf("Uma peça sua já está ocupando esse lugar\n");
-                        	printf("Ainda quer usar o Peão? S/N\n");
-                        	scanf(" %c", &continuar);
+                    if (tabuleiro[linha][coluna] == '-') {
+                        printf("Peça movida com sucesso.\n");
+                        tabuleiro[linha][coluna] = 'P';
+                        tabuleiro[linha_antiga][coluna_antiga] = '-';
+                        peca_movida++;
+                        break;
+                    } else {
+                        printf("Posição inexistente ou ocupada.\n");
+                        printf("Ainda quer usar o Peão? S/N \n");
+                        scanf(" %c", &continuar);
                     }
-                }else {
+                }
+            	else{
                     	printf("Movimento inválido para o Peão.\n");
                     	printf("Ainda quer usar o Peão? S/N \n");
                     	scanf(" %c", &continuar);
-                }
-            } while (continuar == 'S');
-			}
+            }				
+            }while (continuar == 'S');
+		}
 			if (tabuleiro[linha][coluna] == 'K') {
             do {
                 printf("Você quer mover o Rei para que posição? ");
@@ -195,8 +189,185 @@ void vezPreto(char tabuleiro[linhas][colunas]) {
                 }
         	}while (continuar == 'S');
         	}
-    } while (peca_movida == 0);
+        	if (tabuleiro[linha][coluna] == 'T') {
+            do {
+                printf("Você quer mover a Torre para que posição? ");
+                scanf(" %c %d", &c, &coluna);
+                linha = c - 'A';
+                coluna--;
+                if (linha > linha_antiga && coluna == coluna_antiga){
+                	for (i = linha_antiga; i < linha; i++){
+                		if (tabuleiro[i][coluna] == '-'){
+                			continue;
+						}
+						else if (tabuleiro[i][coluna] == ' '){
+							printf("Você quer ir para uma posição inexistente");
+							printf("Ainda quer usar a Torre? S/N:");
+							scanf(" %c", &continuar);
+							break;
+						}
+						else if(i == linha - 1){
+							if (tabuleiro[linha][coluna] == '-') {
+                            	printf("Peça movida com sucesso.\n");
+                            	tabuleiro[linha][coluna] = 'T';
+                            	tabuleiro[linha_antiga][coluna_antiga] = '-';
+                            	peca_movida++;
+                            	break;
+                        	}
+                        	else if(tabuleiro[linha][coluna] == ' '){
+                        		printf("Você quer ir para uma posição inexistente");
+                        		printf("Ainda quer usar a Torre? S/N:");
+                        		scanf(" %c", &continuar);
+                        		break;
+							}
+							else{
+                        		printf("Você quer ir para uma posição ocupada\n");
+                        		printf("Ainda quer usar a Torre? S/N:");
+                        		scanf(" %c", &continuar);
+                        		break;
+							}
+						}
+						
+						else{
+							printf("Tem uma peça no caminho");
+							printf("Ainda quer usar a Torre? S/N:");
+							scanf(" %c", &continuar);
+							break;
+						}
+					}
+				}
+				else if (linha < linha_antiga && coluna == coluna_antiga){
+                	for (i = linha_antiga; i > linha; i--){
+                		if (tabuleiro[i][coluna] == '-'){
+                			continue;
+						}
+						if (tabuleiro[i][coluna] == ' '){
+							printf("Você quer ir para uma posição inexistente");
+							printf("Ainda quer usar a Torre? S/N:");
+							scanf(" %c", &continuar);
+							break;
+						}
+						else if(i == linha + 1){
+							if (tabuleiro[linha][coluna] == '-') {
+                            	printf("Peça movida com sucesso.\n");
+                            	tabuleiro[linha][coluna] = 'T';
+                            	tabuleiro[linha_antiga][coluna_antiga] = '-';
+                            	peca_movida++;
+                            	break;
+                        	}
+                        	else if(tabuleiro[linha][coluna] == ' '){
+                        		printf("Você quer ir para uma posição inexistente");
+                        		printf("Ainda quer usar a Torre? S/N:");
+                        		scanf(" %c", &continuar);
+                        		break;
+							}else{
+                        		printf("Você quer ir para uma posição ocupada\n");
+                        		printf("Ainda quer usar a Torre? S/N:");
+                        		scanf(" %c", &continuar);
+                        		break;
+							}
+						}
+						else if(peca_movida == 1){
+							break;
+						}
+						else{
+							printf("Tem uma peça no caminho");
+							printf("Ainda quer usar a Torre? S/N:");
+							scanf(" %c", &continuar);
+							break;
+						}
+					}
+				}
+				else if (coluna > coluna_antiga && linha == linha_antiga){
+                	for (i = coluna_antiga; i < coluna; i++){
+                		if (tabuleiro[linha][i] == '-'){
+                			continue;
+						}
+						if (tabuleiro[linha][i] == ' '){
+							printf("Você quer ir para uma posição inexistente");
+							printf("Ainda quer usar a Torre? S/N:");
+							scanf(" %c", &continuar);
+							break;
+						}
+						else if(i == coluna - 1){
+							if (tabuleiro[linha][coluna] == '-') {
+                            	printf("Peça movida com sucesso.\n");
+                            	tabuleiro[linha][coluna] = 'T';
+                            	tabuleiro[linha_antiga][coluna_antiga] = '-';
+                            	peca_movida++;
+                            	break;
+                        	}
+                        	else if(tabuleiro[linha][coluna] == ' '){
+                        		printf("Você quer ir para uma posição inexistente");
+                        		printf("Ainda quer usar a Torre? S/N:");
+                        		scanf(" %c", &continuar);
+                        		break;
+                        	}else{
+                        		printf("Você quer ir para uma posição ocupada\n");
+                        		printf("Ainda quer usar a Torre? S/N:");
+                        		scanf(" %c", &continuar);
+                        		break;
+							}
+						}
+						else{
+							printf("Tem uma peça no caminho");
+							printf("Ainda quer usar a Torre? S/N:");
+							scanf(" %c", &continuar);
+							break;
+						}
+					}
+			}
+				else if (coluna < coluna_antiga && linha == linha_antiga){
+                	for (i = coluna_antiga; i > coluna; i--){
+                		if (tabuleiro[linha][i] == '-'){
+                			continue;
+						}
+						if (tabuleiro[linha][i] == ' '){
+							printf("Você quer ir para uma posição inexistente");
+							printf("Ainda quer usar a Torre? S/N:");
+							scanf(" %c", &continuar);
+							break;
+						}
+						else if(i == coluna + 1){
+							if (tabuleiro[linha][coluna] == '-') {
+                            	printf("Peça movida com sucesso.\n");
+                            	tabuleiro[linha][coluna] = 'T';
+                            	tabuleiro[linha_antiga][coluna_antiga] = '-';
+                            	peca_movida++;
+                            	break;
+                        	}
+                        	else if(tabuleiro[linha][coluna] == ' '){
+                        		printf("Você quer ir para uma posição inexistente");
+                        		printf("Ainda quer usar a Torre? S/N:");
+                        		scanf(" %c", &continuar);
+                        		break;
+							}
+							else{
+                        		printf("Você quer ir para uma posição ocupada\n");
+                        		printf("Ainda quer usar a Torre? S/N:");
+                        		scanf(" %c", &continuar);
+                        		break;
+							}
+						}
+						else{
+							printf("Tem uma peça no caminho");
+							printf("Ainda quer usar a Torre? S/N:");
+							scanf(" %c", &continuar);
+							break;
+						}
+					}
+				}
+				else {
+					printf("Movimento não permitido para a Torre\n");
+					printf("Ainda quer usar a Torre? S/N:");
+					scanf(" %c", &continuar);
+					break;
+				}
+			}while (continuar == 'S');
+		}
+    }while (peca_movida == 0);
 }
+
 
 int main() {
     setlocale(LC_ALL, "Portuguese");
@@ -210,5 +381,4 @@ int main() {
     vezPreto(tabuleiro);
     exibirTabuleiro(tabuleiro);
 
-    return 0;
 }
