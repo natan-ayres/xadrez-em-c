@@ -163,6 +163,38 @@ void vezPreto(char tabuleiro[linhas][colunas]) {
                 }
             } while (continuar == 'S');
 			}
+			if (tabuleiro[linha][coluna] == 'K') {
+            do {
+                printf("Você quer mover o Rei para que posição? ");
+                scanf(" %c %d", &c, &coluna);
+                linha = c - 'A';
+                coluna--;
+                if ((linha < linha_antiga + 2) && (linha > linha_antiga - 2) && (coluna < coluna_antiga + 2) && (coluna > coluna_antiga - 2)){
+					if (tabuleiro[linha][coluna] != 'P' && tabuleiro[linha][coluna] != 'T' && tabuleiro[linha][coluna] != 'C' &&
+                        tabuleiro[linha][coluna] != 'B' && tabuleiro[linha][coluna] != 'R' && tabuleiro[linha][coluna] != 'K') {
+                        if (tabuleiro[linha][coluna] == '-') {
+                            printf("Peça movida com sucesso.\n");
+                            tabuleiro[linha][coluna] = 'K';
+                            tabuleiro[linha_antiga][coluna_antiga] = '-';
+                            peca_movida++;
+                            break;
+                        } else {
+                            printf("Posição inexistente ou ocupada.\n");
+                            printf("Ainda quer usar o Rei? S/N \n");
+                            scanf(" %c", &continuar);
+                        }
+                    }	else {
+                        	printf("Uma peça sua já está ocupando esse lugar\n");
+                        	printf("Ainda quer usar o Rei? S/N\n");
+                        	scanf(" %c", &continuar);
+                    }
+                }else {
+                    	printf("Movimento inválido para o Rei.\n");
+                    	printf("Ainda quer usar o Rei? S/N \n");
+                    	scanf(" %c", &continuar);
+                }
+        	}while (continuar == 'S');
+        	}
     } while (peca_movida == 0);
 }
 
@@ -177,10 +209,6 @@ int main() {
     exibirTabuleiro(tabuleiro);
     vezPreto(tabuleiro);
     exibirTabuleiro(tabuleiro);
-	
+
+    return 0;
 }
-
-
-
-
-
